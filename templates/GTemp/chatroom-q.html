@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Question Detail| iRehab{% endblock %}
+
+{% block main %} 
+<div class="chatCanvas">
+    <div class="container">
+        <section class="row justify-content-center">
+            <div class="col-9">
+                <div class="jumbotron jumbotron-default alert alert-primary m-4">
+                    <div class="container p-2">
+                        {% for qd in questions %}
+                        <h5 class="display-6 d-flex justify-content-between">
+                            <span><i class="fa fa-question-circle-o" aria-hidden="true"></i> Question:</span>
+                            <p class="lead">
+                                <a class="btn btn-primary" href="{% url 'mainApp:add_comment' qd.id %}" role="button">
+                                    <i class="fa fa-plus-circle" aria-hidden="true"></i> Add a comment
+                                </a>
+                            </p>
+                        </h5>
+                            <p class="lead">{{qd.narrative}}</p>
+                            <hr class="my-2">
+                            <p>Topic: {{qd.topic}}</p>
+                            
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <div class="card m-4">
+                    <div class="card-header">
+                        <h2> <i class="fa fa-comments" aria-hidden="true"></i> Comments</h2>
+                    </div>
+                    <div class="card-body">
+                        {% if not comments|length == 0 %}
+                            {% for comment in comments %}
+                                <p>{{comment.user}}: <br> {{comment.opinion}}</p>
+                                <hr>
+                            {% endfor %}
+                        {% else %}
+                            <h5> <i class="fa fa-cog fa-spin"></i> No Comment was Found</h5>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- <div class="col-5">
+                
+            </div> -->
+
+        </section> 
+    </div>
+</div>
+
+
+{% endblock %}

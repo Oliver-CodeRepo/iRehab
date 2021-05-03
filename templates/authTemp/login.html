@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Log in to iRehab site{% endblock %}
+
+{% block main %}
+
+<link rel="stylesheet" href="{% static 'css/auth.css' %}">
+
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="{% static 'images/signin-image.jpg' %}" alt="sing up image"></figure>
+                <a href="{% url 'mainApp:register' %}" class="signup-image-link">Create an account</a>
+                <a class="signup-image-link badge badge-primary" href="{% url 'doctor:doctorLogin' %}">Admin</a>
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" id="login-form">
+                    {% for msg in messages %}
+                        <span style="color: ghostwhite; background-color:lightseagreen">{{ msg }}</span>
+                    {% endfor %}
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="your_name"><i class="fa fa-user"></i></label>
+                        <input type="text" name="username" id="your_name" placeholder="Your Username">
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="fa fa-lock"></i></label>
+                        <input type="password" name="password" id="your_pass" placeholder="Your Password">
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in">
+                    </div>
+                </form>
+                <div class="social-login">
+                    <span class="social-label">Follow Us on:</span>
+                    <ul class="socials">
+                        <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                        <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                        <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

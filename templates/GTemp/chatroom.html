@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Chatroom | iRehab{% endblock %}
+
+{% block main %}
+
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+<div style='background-color:white; width: 100%;'>
+    <div class="chatCanvas">
+        <div class="left">
+            <p class="text-m">We are here to listen to you</p>
+            <p class="text-b">Let's talk, Let's chat</p>
+            <p class="text-s">Post your concern, we listen and let us recover together</p>
+        </div>
+        <div class="right">
+            <img src="{% static 'images/chatRoom.png' %}" alt="">
+        </div>
+    </div>
+    <hr>
+    
+    <div class="container m-auto">
+        <div class="row justify-content-center">
+            <div class="col-9">
+                <div class="jumbotron jumbotron-default alert alert-info">
+                    <div class="container d-flex justify-content-between">
+                        <span>
+                            <h5 class="display-6">Talk to and with us</h5>
+                            <p class="lead">Interact with our community on matters recovery from drug addition</p>
+                        </span>
+                        <p class="lead">
+                            <a class="btn btn-primary btn-lg" href="{% url 'mainApp:askQuiz'%}" role="button">Ask A Question</a>
+                        </p>
+                    </div>
+                </div>
+
+                {% for post in questions %}
+                    <div class="card border pb-2 m-2 mt-0">
+                        <div class="card-header d-flex justify-content-between">
+                            <span class='chatUser text-primary'>Posted by: {{ post.user }}</span>
+                            <span class='chatDate'>{{ post.date_asked }}</span>
+                        </div>
+                        <div class="p-3">
+                            <span class='alert alert-info p-1 mb-2'>post on: {{ post.topic }}</span><br>
+                            <div class='chatNarrative d-flex justify-content-between mt-2'>
+                                <span>{{ post.narrative | slice:":40" }}... &nbsp; </span>
+                                <a href="{% url 'mainApp:question' post.pk %}">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- <div class="col-3"></div> -->
+        </div>
+    </div>
+</div>
+
+<br><br>
+
+{% endblock %}

@@ -1,0 +1,31 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-4 ">
+            <div class="card bg-primary text-light">
+                <div class="card-header ">
+                    <h5>Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <h1>
+                        {{app|length}}
+                    </h1>
+                    <h6>Active Appointments</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="card bg-success text-light">
+                <div class="card-header">
+                    <h5>Chatroom</h5>
+                </div>
+                <div class="card-body">
+                    <h1>3</h1>
+                    <h6>Chatroom</h6>
+                </div>
+            </div>
+        </div>
+    </div>           
+{% endblock  %}

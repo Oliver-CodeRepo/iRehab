@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% load static %}
+
+{% block title %}Add Comment | iRehab{% endblock %}
+
+{% block main %}
+
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+<link rel="stylesheet" href="{% static 'css/base.css' %}">
+
+
+    <!-- <script>
+        var name = "{{ user.id }}";
+        document.getElementById('id_name').value = name;
+    </script> -->
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-6 card p-3 m-4">
+                <form action="" method="post" class="form form-group">
+                    {% csrf_token %}
+                    <p class="alert alert-primary m-1 p-1">Comment On This Question: <br> "{{ current_question.narrative }}"</p>
+                    <br>
+                    {{form.errors}}
+                    {{ form | crispy }} 
+                    <br>
+                    <button class="btn btn-primary rounded">Post</button>
+                    <a class="btn btn-danger rounded" href="{% url 'mainApp:chatroom' %}">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+<script>
+    var question = '{{current_question.id}}';
+    var user = '{{ user.id }}';
+
+    document.getElementById('id_question').value = question;
+    document.getElementById('id_user').value = user;
+</script>
+    
+{% endblock %}

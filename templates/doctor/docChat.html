@@ -1,0 +1,44 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+<div style='background-color:white; width: 100%;'>
+    <div class="">
+        <div class="jumbotron jumbotron-default alert alert-info">
+            <div class="container d-flex justify-content-between">
+                <span>
+                    <h5 class="display-6">Talk to and with us</h5>
+                    <p class="lead">Interact with our community on matters recovery from drug addition</p>
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr>
+    
+    <div class="container m-auto">
+        <div class="row justify-content-center">
+            <div class="col-9">
+                {% for post in chats %}
+                    <div class="card border pb-2 m-2 mt-0">
+                        <div class="card-header d-flex justify-content-between">
+                            <span class='chatUser text-primary'>Posted by: {{ post.user }}</span>
+                            <span class='chatDate'>{{ post.date_asked }}</span>
+                        </div>
+                        <div class="p-3">
+                            <span class='alert alert-info p-1 mb-2'>post on: {{ post.topic }}</span><br>
+                            <div class='chatNarrative d-flex justify-content-between mt-2'>
+                                <span>{{ post.narrative | slice:":40" }}... &nbsp; </span>
+                                <a href="{% url 'mainApp:question' post.pk %}">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <!-- <div class="col-3"></div> -->
+        </div>
+    </div>
+</div>
+      
+{% endblock  %}

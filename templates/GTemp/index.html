@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Welcome to iRehab site{% endblock %}
+
+{% block main %}
+<div class="index-canvas">
+    <div class="main-container container">
+        <!-- banner section -->
+        <section class="banner">
+            <div class="left">
+                <p class="text-medium">Welcome to...</p>
+                <p class="text-large">iRehab Site</p>
+                <p class="text-small">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veniam eum nesciunt, molestias magni ipsa ex mollitia ipsam ullam minima inventore tenetur accusamus ab est ratione?</p>
+                <p class="buttons">
+                {%if user.is_authenticated %}
+                    <a class="button" href="">About Us</a>
+                    <a class="button" href="{% url 'mainApp:profile'%}">Profile</a>
+                {% else %}
+                    <a class="button" href="{% url 'mainApp:register'%}">Register</a>
+                    <a class="button" href="{% url 'mainApp:login'%}">Log in</a>
+                {% endif %}
+                </p>
+            </div>
+            <div class="right">
+            </div>
+        </section>     
+    </div>
+</div>
+
+<section class="services">
+    <div class="main-container">
+        <div class="title">
+            <p>Services Panes</p>
+        </div>
+        <div class="row">
+            <div class=" col-lg-3 col-md-6 col-sm-12">
+                <img src="{% static 'images/chatRoom.png' %}" alt="" height="100" width="100">
+                <h3>ChatRoom</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+                <a class="pane-btn btn btn-primary" href="{% url 'mainApp:chatroom' %}">Navigate to Chatroom</a>
+            </div>
+            <div class=" col-lg-3 col-md-6 col-sm-12">
+                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
+                <h3>Appointment</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+                <a class="pane-btn btn btn-primary"" href="">Book Appointment</a>
+            </div>
+            <div class=" col-lg-3 col-md-6 col-sm-12">
+                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
+                <h3>Appointment</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+                <a class="pane-btn btn btn-primary"" href="">Navigate</a>
+            </div>
+            <div class=" col-lg-3 col-md-6 col-sm-12">
+                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
+                <h3>Appointment</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+                <a class="pane-btn btn btn-primary"" href="">Navigate</a>
+            </div>
+        </div>
+    </div>
+</section> 
+
+<section class="about">
+    <div class="main-container">
+        <div class="about-content">
+            <div class="left">
+                <h1>About</h1>
+                <p class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa optio reiciendis ducimus laborum vero magni laudantium similique possimus, unde libero itaque dolores temporibus excepturi aliquid, nulla, asperiores minus eaque fuga?</p><br><br>
+                <span class="buttons">
+                    <a class="button abt-btn" href="">About Us</a>
+                </span>
+            </div>
+            <div class="right">
+
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

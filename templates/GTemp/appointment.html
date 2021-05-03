@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}Appointment | iRehab{% endblock %}
+
+{% block main %}
+
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+<div style='background-color:white; width: 100%;'>
+    <div class="row justify-content-center mb-5">
+
+        <div class="col-4 border mt-4 p-4">
+            <form action="" method="post">
+                <h3> Book Appointment Form</h3>
+                {% csrf_token %}
+                <label for="id_doctor">Doctor:</label>
+                <select name="doctor" id="id_doctor" class="form-control mb-3">
+                        {% for f in doctor %}
+                        <option value="{{f.id}}">{{f.name}}</option>
+                        {% endfor %}
+                </select>
+
+                <label for="id_problem">Appointment Note:</label>
+                <textarea name="problem" id="id_problem" cols="30" rows="4" class="form-control" placeholder="Appointment Note"></textarea>
+
+                {{ form.user }}
+                <button class="button">Post</button>
+                <a class="button" style="background-color: red;" href="{% url 'mainApp:index' %}">Cancel</a>
+            </form>
+        </div>
+
+        <div class="col-5 mr-5">
+            <div class="card mt-4 mb-4">
+                <div class="card-header bg-white">
+                    <h5 class='text-primary'>Your Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>Problem</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for app in apps %}
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td>{{app.doctor}}</td>
+                            <td>{{app.problem|slice:":20" }}...</td>
+                            <td>
+                                {% if app.status == True %}
+                                <span class='alert alert-success p-1 pl-2 pr-2'>Approved</span>
+                                {% else %}
+                                <span class='alert alert-warning p-1 pl-2 pr-2'>Pending...</span>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="text-primary">Available Doctors</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>speciality</th>
+                        </tr>
+                        {% for doc in doctor %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{doc.name}}</td>
+                            <td>{{doc.name.last_name}}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    var user = '{{user.id}}';
+    document.getElementById('id_user').value = user;
+</script>
+
+{% endblock %}
