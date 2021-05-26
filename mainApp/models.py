@@ -112,9 +112,10 @@ class Session(models.Model):
 class Inpatient(models.Model):
     availability = models.BooleanField(default=True)
     starting_date = models.DateTimeField(null=True, blank=True)
-    finish_date = models.CharField(null=True, blank=True, max_length=50)
-    user = models.ForeignKey(
-        User, null=True, blank=True, on_delete=models.CASCADE)
+    finish_date = models.DateTimeField(null=True, blank=True, max_length=50)
+    problem = models.TextField(default='description...')
+    doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
+    user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
 
     @classmethod
     def get_vacancies(cls):
@@ -135,6 +136,7 @@ class UserAppointment(models.Model):
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
     problem = models.TextField(max_length=255)
+    scheduled = models.DateTimeField()
     created_on = models.DateTimeField(auto_now_add=True)
     status = models.BooleanField(default=False)
 

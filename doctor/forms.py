@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
 from mainApp.models import UserAppointment
+from doctor.models import Doctor
 
 
 class DoctorRegForm(UserCreationForm):
@@ -25,4 +26,21 @@ class ApproveForm(forms.ModelForm):
         model = UserAppointment
         fields = ['status']
 
+
+class RescheduleForm(forms.ModelForm):
+    class Meta:
+        model = UserAppointment
+        fields = '__all__'
+
+        widgets = {
+            'user':forms.Select(attrs={'class':'form-control','readonly':'readonly'}),
+            'doctor':forms.Select(attrs={'class':'form-control','readonly':'readonly'}),
+            'problem':forms.TextInput(attrs={'class':'form-control','readonly':'readonly'}),
+            'scheduled':forms.DateTimeInput(attrs={'class':'form-control','type':'datetime'}),
+        }
         
+
+class AvailabilityForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = '__all__'

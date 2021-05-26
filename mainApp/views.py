@@ -61,7 +61,7 @@ def logoutPage(request):
     return redirect('mainApp:login')
 
 
-# @login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def profilePage(request):
     form = ProfileForm()
     if request.method == 'POST':
@@ -77,21 +77,21 @@ def profilePage(request):
     return render(request, 'User/profile.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def view_profile(request, user_id):
     profile = Profile.get_profile(user_id)
     context = {'profile': profile}
     return render(request, 'User/profileView.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def all_questions(request):
     questions = Question.get_questions
     context = {'questions': questions}
     return render(request, 'GTemp/chatroom.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def single_questions(request, question_id):
     questions = Question.objects.filter(id=question_id)
     comments = Comment.objects.filter(question=question_id)
@@ -99,7 +99,7 @@ def single_questions(request, question_id):
     return render(request, 'GTemp/chatroom-q.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def post_question(request):
     form = QuestionForm()
     if request.method == 'POST':
@@ -116,7 +116,7 @@ def post_question(request):
     return render(request, 'GTemp/addQuestion.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def post_comments(request, question_id):
     current_question = Question.objects.get(id=question_id)
     print(current_question)
@@ -137,13 +137,16 @@ def post_comments(request, question_id):
     return render(request, 'GTemp/addComment.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def appointment(request):
     user = request.user
-    apps = UserAppointment.objects.filter(user=user.id)
+    apps = UserAppointment.objects.filter(user=user.id).order_by('-id')[:3]
+    inpatient = Inpatient.objects.filter(user=user.id).order_by('-id')[:3]
     doctor = Doctor.objects.filter(availability=True)
 
     form = UserAppointmentForm()
+    formInpatient = InpatientForm()
+
     if request.method == 'POST':
         form = UserAppointmentForm(request.POST)
         if form.is_valid():
@@ -153,32 +156,44 @@ def appointment(request):
     else:
         form = UserAppointmentForm()
 
-    context = {'form': form, 'apps':apps, 'doctor':doctor}
+    if request.method == 'POST':
+        formInpatient = InpatientForm(request.POST)
+        if formInpatient.is_valid():
+            formInpatient = formInpatient.save(commit=False)
+            formInpatient.save()
+            messages.info(request, 'Booking for inoatient was a success')
+            return redirect('mainApp:appointment')
+    else:
+        form = UserAppointmentForm()
+
+    
+
+    context = {'form': form, 'apps':apps, 'doctor':doctor, 'formInpatient':formInpatient, 'inpatient':inpatient}
     return render(request, 'GTemp/appointment.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def view_records(request):
     profile = Record.get_records
     context = {'profile': profile}
     return render(request, 'authTemp/register.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def unbooked_session(request):
     session = Session.get_questions
     context = {'session': session}
     return render(request, 'authTemp/register.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def unbooked_vacancies(request):
     session = Inpatient.get_vacancies
     context = {'session': session}
     return render(request, 'authTemp/register.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def view_outpatient(request):
     current_user = request.user
     reservations = Session.get_booked_sessions
@@ -186,12 +201,18 @@ def view_outpatient(request):
     return render(request, 'view-out-booked.html', context)
 
 
-@login_required(login_url='authTemp/login.html')
+@login_required(login_url='mainApp:login')
 def view_inpatient(request):
     current_user = request.user
     reservations = Session.get_booked_sessions
     context = {'reservations': reservations, 'current_user': current_user}
     return render(request, 'view-in-booked.html', context)
+
+
+@login_required(login_url='mainApp:login')
+def aboutPage(request):
+    context = {}
+    return render(request, 'GTemp/about.html', context)
 
 
 # @login_required(login_url='authTemp/login.html')

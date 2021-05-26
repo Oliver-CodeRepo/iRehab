@@ -1,0 +1,44 @@
+{% extends 'admin-base.html' %}
+{% load static %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5>Reschedule Appointment</h5>
+                </div>
+                <div class="card-body">
+                    <form class="form-row form-group" method='post'>       
+                        {% csrf_token %}
+                        {{ rescheduleForm.errors }}
+                        <div class="card-body w-100">
+                            <div class="row mb-3">
+                                <div class="col-lg-6 col-sm-12 col-md-12">
+
+                                    <label class="form-control-placeholder" >User:</label>
+                                    <!-- <input type="text" name="user" id="id_user" class="form-control" readonly> -->
+                                    {{ rescheduleForm.user }}
+                                    <label class="form-control-placeholder" >Doctor:</label>
+                                    {{ rescheduleForm.doctor }}
+                                    <!-- <input type="text" name="doctor" id="id_doctor" class="form-control" readonly> -->
+                                    <label class="form-control-placeholder" >Problem:</label>
+                                    {{ rescheduleForm.problem }}
+                                    <!-- <input type="text" name="problem" id="id_problem" class="form-control" readonly> -->
+                                    <label class="form-control-placeholder" >Reschedule to:</label>
+                                    {{ rescheduleForm.scheduled }}
+                                </div>
+                            </div>
+                            <br>
+                            <button type="submit" class='btn btn-block btn-primary'>Approve</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>           
+
+
+
+{% endblock  %}

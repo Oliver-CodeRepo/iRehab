@@ -2,17 +2,26 @@
 {% load static %}
 
 {% block content %}
+
+    {% for msg in messages %}
+        {{msg}}
+    {% endfor %}
     <div class="row">
-        <div class="col-4 ">
+        <div class="col-12">
+            <div class="card alert alert-info mb-3">
+                <a href="{% url 'doctor:dashboard' %}?action=set_availability" > Set Availability</a>
+            </div>
+        </div>
+        <div class="col-6 ">
             <div class="card bg-primary text-light">
                 <div class="card-header ">
                     <h5>Appointments</h5>
                 </div>
                 <div class="card-body">
                     <h1>
-                        {{app|length}}
+                        {{app}}
                     </h1>
-                    <h6>Active Appointments</h6>
+                    <h6>Active Approved Appointments</h6>
                 </div>
             </div>
         </div>
@@ -27,5 +36,7 @@
                 </div>
             </div>
         </div>
-    </div>           
+    </div>       
+    
+
 {% endblock  %}

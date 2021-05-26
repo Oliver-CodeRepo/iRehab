@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 
 {% load static %}
+{% load humanize %}
 
 {% block title %}Appointment | iRehab{% endblock %}
 
@@ -13,21 +14,27 @@
 
         <div class="col-4 border mt-4 p-4">
             <form action="" method="post">
-                <h3> Book Appointment Form</h3>
+                <h3> Book Session Form</h3>
                 {% csrf_token %}
+                <label for="">Schedule On</label>
+                <input type="date" name="scheduled" id="id_scheduled" class="form-control">
                 <label for="id_doctor">Doctor:</label>
-                <select name="doctor" id="id_doctor" class="form-control mb-3">
+                <select name="doctor" id="id_doctor" class="form-control mb-3" required>
+                    <option value="">-------</option>
                         {% for f in doctor %}
                         <option value="{{f.id}}">{{f.name}}</option>
                         {% endfor %}
                 </select>
-
+                <label for="id_type"></label>
+                {{form.type}}
                 <label for="id_problem">Appointment Note:</label>
-                <textarea name="problem" id="id_problem" cols="30" rows="4" class="form-control" placeholder="Appointment Note"></textarea>
+                <textarea name="problem" id="id_problem" cols="30" rows="4" class="form-control" placeholder="Appointment Note" required></textarea> <br>
 
                 {{ form.user }}
-                <button class="button">Post</button>
-                <a class="button" style="background-color: red;" href="{% url 'mainApp:index' %}">Cancel</a>
+                <span class="d-flex row justify-content-center">
+                    <button class="btn btn-primary col-7">Book Sesion Appointment</button>
+                    <span type='button' data-toggle='modal' data-target='#appointment' class="badge badge-success col-7 mt-2"> or Book Inpatient Service</span>
+                </span>
             </form>
         </div>
 
@@ -42,6 +49,7 @@
                             <th>#</th>
                             <th>Doctor</th>
                             <th>Problem</th>
+                            <th>Date</th>
                             <th>Status</th>
                         </tr>
                         {% for app in apps %}
@@ -49,6 +57,7 @@
                             <td>{{forloop.counter}}</td>
                             <td>{{app.doctor}}</td>
                             <td>{{app.problem|slice:":20" }}...</td>
+                            <td>{{app.created_on|naturalday}}...</td>
                             <td>
                                 {% if app.status == True %}
                                 <span class='alert alert-success p-1 pl-2 pr-2'>Approved</span>
@@ -56,6 +65,31 @@
                                 <span class='alert alert-warning p-1 pl-2 pr-2'>Pending...</span>
                                 {% endif %}
                             </td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header bg-white">
+                    <h5 class="text-primary">Inpatient Appointment</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tr>
+                            <th>#</th>
+                            <th>Doctor</th>
+                            <th>Problem</th>
+                            <th>Stating Date</th>
+                            <th>Status</th>
+                        </tr>
+                        {% for ip in inpatient %}
+                        <tr>
+                            <td>{{ forloop.counter }}</td>
+                            <td>{{ip.doctor}}</td>
+                            <td>{{ip.problem}}</td>
+                            <td>{{ip.starting_date}}</td>
+                            <td>f</td>
                         </tr>
                         {% endfor %}
                     </table>
@@ -86,6 +120,56 @@
 
     </div>
 </div>
+
+
+
+
+<!-- Products Modal -->
+<div class="modal fade" id="appointment" tabindex="-1" role="dialog" aria-labelledby="productTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productTitle">Add Inpatient Appointment</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="form-row" method='post'>       
+                    {% csrf_token %}  
+                    <div class="form-group col-lg-6 col-sm-12">                             
+                        <label class="form-control-placeholder" for="product">Start Date</label>                  
+                        <input type="date" name="starting_date" class="form-control" id="id_starting_date">
+                    </div>  
+                    <div class="form-group col-lg-6 col-sm-12 ">  
+                        <label class="form-control-placeholder" class="form-control" for="product">End Date</label>    
+                        <input type="date" name="finish_date" class="form-control" id="id_finish_date">
+                    </div>                                                                                  
+                    <div class="form-group col-sm-12">      
+                        <label class="form-control-placeholder" for="product">Doctor</label>  
+                        <select name="doctor" id="id_doctor" class="form-control mb-3" required>
+                            <option value="">-------</option>
+                                {% for f in doctor %}
+                                <option value="{{f.id}}">{{f.name}}</option>
+                                {% endfor %}
+                        </select>
+                    </div>  
+                    <div class="form-group col-sm-12">      
+                        <label class="form-control-placeholder" for="product">Problem</label>                                         
+                        <textarea name="problem" id="id_problem" cols="30" rows="4" class="form-control"></textarea>
+                    </div>  
+                    {{ formProduct.station}}
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block">Book</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 <script>
     var user = '{{user.id}}';

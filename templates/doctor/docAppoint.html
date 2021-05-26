@@ -32,7 +32,7 @@
                                 <td>{{ forloop.counter }}</td>
                                 <td>{{ap.user}}</td>
                                 <td>{{ap.problem|slice:":20" }}</td>
-                                <td>{{ap.created_on}}</td>
+                                <td>{{ap.scheduled}}</td>
                                 <td>
                                     {% if ap.status == True %}
                                     <span class='alert alert-success p-1 pl-2 pr-2'>Approved</span>
@@ -43,7 +43,7 @@
                                 <td>
                                     {% if ap.status == False %}
                                     <a href="{% url 'doctor:approveApp' ap.id %}" class="">Approve</a> 
-                                    <a href="" class="">Reschedule</a> 
+                                    <a href="{% url 'doctor:reschedule' ap.id %}" class="">Reschedule</a> 
                                     {% endif %}
                                 </td>
                             </tr>

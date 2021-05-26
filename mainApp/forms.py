@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.forms import fields, widgets
-from .models import Comment, Profile, Question, Record, UserAppointment
+from .models import Comment, Inpatient, Profile, Question, Record, UserAppointment
 
 
 class RegForm(UserCreationForm):
@@ -68,10 +68,16 @@ class CommentForm(forms.ModelForm):
 class UserAppointmentForm(forms.ModelForm):
     class Meta:
         model = UserAppointment
-        fields = ['user','doctor','problem']
+        fields = ['user','doctor','problem', 'scheduled']
 
         widgets = {
             'user': forms.TextInput(attrs={'class':'form-control', 'type':'hidden'}),
             'doctor': forms.Select(attrs={'class':'form-control'}),
             'problem': forms.Textarea(attrs={'class':'form-control'}),
         }
+
+
+class InpatientForm(forms.ModelForm):
+    class Meta:
+        model = Inpatient
+        fields = ['doctor','problem','user','starting_date','finish_date']

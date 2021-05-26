@@ -22,5 +22,7 @@ urlpatterns = [
          views.post_comments, name='add_comment'),
     #     path('chartroom/<int:q_pk/question/<int:c_pk/comment', views.)
 
-    path('appointment/bookings/', views.appointment, name="appointment")
+    path('appointment/bookings/', views.appointment, name="appointment"),
+
+    path('About_us/', views.aboutPage, name="aboutPage")
 ]
