@@ -46,7 +46,7 @@ def loginPage(request):
 
             user = authenticate(request, username=username, password=password)
 
-            if user is not None:
+            if user is not None and user.is_staff == False:
                 login(request, user)
                 return redirect('mainApp:index')
             else:
@@ -71,7 +71,7 @@ def profilePage(request):
             messages.success(request, 'Profile creation was successful.')
             return redirect('mainApp:index')
     else:
-        return redirect('mainApp:profile')
+        form=ProfileForm()
 
     context = {'form': form}
     return render(request, 'User/profile.html', context)

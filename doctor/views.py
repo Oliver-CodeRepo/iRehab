@@ -40,7 +40,8 @@ def doctorloginPage(request):
 
             user = authenticate(request, username=username, password=password)
 
-            if user is not None:
+            if user is not None and user.is_staff == True:
+                print(user)
                 login(request, user)
                 return redirect('doctor:dashboard')
             else:
@@ -59,28 +60,27 @@ def doctorlogoutPage(request):
 @login_required(login_url='doctor:doctorLogin')
 def dashboard(request):
     app = UserAppointment.objects.filter(doctor__id=request.user.id, status=True).all().count()
+    av_ap = Doctor.objects.filter(name=request.user.id).first()
 
     if 'action' in request.GET.keys():
         action = request.GET['action']
         if action == 'set_availability':
-            av_ap = Doctor.objects.filter(name=request.user.id).all()
+            av_ap = av_ap
             print(av_ap)
-            if av_ap.availability is False:
-                for a in av_ap:
-                    a.availability = True
-                    a.save()
-                    print('hhhh',a)
-                    messages.info(request, 'Availability is set On')
+            if av_ap.availability == False:
+                av_ap.availability = True
+                av_ap.save()
+                print('hhhh',av_ap)
+                messages.info(request, 'Availability is set On')
                 return redirect('doctor:dashboard')
             else:
-                for a in av_ap:
-                    a.availability = False
-                    a.save()
-                    print('gggg',a)
-                    messages.info(request, 'Availability is set Off')
+                av_ap.availability = False
+                av_ap.save()
+                print('gggg',av_ap)
+                messages.info(request, 'Availability is set Off')
                 return redirect('doctor:dashboard')
 
-    context = {'app':app}
+    context = {'app':app, 'av_ap':av_ap}
     return render(request, 'doctor/dashboard.html', context)
 
 

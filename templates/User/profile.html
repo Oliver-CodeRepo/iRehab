@@ -8,20 +8,26 @@
 {% block main %}
 
 <div class="justify-content-center">
-    <div class="container p-4" style='width:40%'>
-        <form action="" method="post" class="form form-group">
-            {% for error in form.errors %}
-                <span class="message">{{ error }}</span>
-            {% endfor %}
-            {% csrf_token %}
-            <h1>Your Profile Pane</h1>
-            {{ form | crispy }}
-            
-            
-            <button class='btn btn-primary p-2'>Update Profile</button> 
-            <a class='btn btn-secondary p-2' href='{% url "mainApp:index" %}'>Back Home</a> 
-            <a class='btn btn-danger p-2' href='{% url "mainApp:logout" %}'> Logout</a>
-        </form>
+    <div class="container p-4" style='width:60%'>
+        <div class="card">
+            <div class="card-header">
+                <h1>Your Profile Pane</h1>
+            </div>
+            <div class="card-body">
+                <form action="" method="post" class="form form-group">
+                    {% for error in form.errors %}
+                        <span class="message">{{ error }}</span>
+                    {% endfor %}
+                    {% csrf_token %}
+                    {{ form | crispy }}
+                    
+                    
+                    <button class='btn btn-primary p-2'>Update Profile</button> 
+                    <a class='btn btn-secondary p-2' href='{% url "mainApp:index" %}'>Back Home</a> 
+                    <a class='btn btn-danger p-2' href='{% url "mainApp:logout" %}'> Logout</a>
+                </form>
+            </div>
+        </div>
     </div>
 </div>
 
