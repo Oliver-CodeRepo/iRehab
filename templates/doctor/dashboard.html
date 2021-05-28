@@ -162,6 +162,20 @@ input:checked + .toy-toggle .handle-on {
                     </div>
                 </div>
 
+				<div class="mid">
+
+					<label class="rocker rocker-small">
+						{% if av_ap.availability == True %}
+						<input type="checkbox"  id="toggle" name="toggle" value="is_on" checked style="opacity: 0;">
+						{% else %}
+						<input type="checkbox"  id="toggle" name="toggle" value="is_on" style="opacity: 0;">
+						{% endif %}
+					  <span class="switch-left">Yes</span>
+					  <span class="switch-right">No</span>
+					</label>
+				  
+				  </div>
+
                 <div class="col-4 d-flex align-items-center" style="position:absolute; top: 0; left: 0;">
                     {% if av_ap.availability == True %}
                     <input type="checkbox"  id="toggle" name="toggle" value="is_on" checked style="opacity: 0;">
