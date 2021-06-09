@@ -24,11 +24,11 @@
                     <li><a href="{% url 'mainApp:index'%}">Home</a></li>
                     {% if user.is_authenticated %}
                     <li><a href="{% url 'mainApp:appointment'%}">Appointment</a></li>
-                    <li><a href="{% url 'mainApp:chatroom'%}">ChatRoom</a></li>
+                    <li><a href="{% url 'mainApp:chatroom'%}">Forum</a></li>
                     {% endif %}
                     <li><a href="{% url 'mainApp:aboutPage'%}">About</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'mainApp:profile'%}"> {{request.user.username}} </a></li>
+                    <li><a href="{% url 'mainApp:profile' user.id%}"> {{request.user.username}} </a></li>
                     <li><a href="{% url 'mainApp:logout'%}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'mainApp:register'%}">Register</a></li>

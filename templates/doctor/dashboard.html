@@ -14,212 +14,228 @@
 	margin: 0;
 	padding: 0;
 }
-body {
-	/* background: linear-gradient(#fff,#ccc); */
-	/* display: flex; */
-	/* height: 100vh; */
-	--on: #88e661;
-	--off: #f0f0f0;
-	--transDur: 0.6s;
-}
-input {
-	position: fixed;
-	transform: translateX(-100%);
-}
-.toy-toggle {
-	background:
-		radial-gradient(at top left,#fff 10%,#fff0 20%),
-		radial-gradient(at top right,#fff 20%,#e4e4e4 35%);
-	border-radius: 6em;
-	box-shadow:
-		0 0 0.25em #0002,
-		0 3em 1.5em 0.5em #0002;
-	cursor: pointer;
-	display: block;
-	font-size: 12px;
-	position: relative;
-	/* margin: auto; */
-	width: 20em;
-	height: 12em;
-	-webkit-tap-highlight-color: transparent;
-}
-.toy-toggle span {
-	display: block;
-	position: absolute;
-}
-.toy-toggle > span {
-	top: 50%;
-	left: 50%;
-}
-.toy-toggle > span:not(.handle) {
-	transform: translate(-50%,-50%);
-}
-.border1 {
-	background: #f0f0f0;
-	border-radius: 5.5em;
-	box-shadow: 0 0 0.2em 0.1em #f0f0f0;
-	width: 19em;
-	height: 11em;
-}
-.border2 {
-	background: linear-gradient(0deg,#fff 33%,#ccc 45%);
-	border-radius: 4.75em;
-	box-shadow: 0 0 0.2em 0.3em #f0f0f0 inset;
-	width: 16.5em;
-	height: 9.5em;
-}
-.border3, .handle {
-	background: linear-gradient(90deg, var(--on) 50%, var(--off) 0);
-}
-.border3 {
-	background-position: 75% 0;
-	background-size: 200% 100%;
-	border-radius: 4.25em;
-	box-shadow:
-		0 0 0.1em 0.1em #ddd inset,
-		0 1.5em 1.5em 1em #0004 inset,
-		0 0 0 4.25em #0002 inset;
-	width: 15.5em;
-	height: 8.5em;
-	transition: background-position var(--transDur) ease-in-out;
-}
-.handle {
-	border-radius: 50%;
-	box-shadow: 0 0 0.5em 0 #0007;
-	width: 8.5em;
-	height: 8.5em;
-	transform: translate(-90%,-50%);
-	transition: transform var(--transDur) ease-in-out;
-	z-index: 0;
-}
-.handle:before {
-	background:
-		radial-gradient(2em 1.5em at 50% 35%,#fff6 15%,#fff0),
-		radial-gradient(1.5em 2.5em at 75% 40%,#fff6 15%,#fff0),
-		radial-gradient(100% 100% at 50% 33%,#0000 25%,#0003 50%);
-	border-radius: 50%;
-	box-shadow: 0 0 0.3em 0.1em #0003 inset;
-	content: "";
-	display: block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
-	z-index: 3;
-}
-.handle-off, .handle-on {
-	width: 50%;
-	height: 100%;
-	transition: transform calc(var(--transDur)/2);
-	z-index: 2;
-}
-.handle-off {
-	background: var(--off);
-	border-radius: 100% 0 0 100% / 50% 50% 50% 50%;
-	right: 50%;
-	transform-origin: 100% 50%;
-	transition-delay: calc(var(--transDur)/2);
-	transition-timing-function: ease-out;
-}
-.handle-on {
-	background: var(--on);
-	border-radius: 0 100% 100% 0 / 50% 50% 50% 50%;
-	left: 50%;
-	transform: scaleX(0);
-	transform-origin: 0 50%;
-	transition-timing-function: ease-in;
+.mid {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top:1em;
 }
 
-/* On */
-input:checked + .toy-toggle .border3 {
-	background-position: 25% 0;
-}
-input:checked + .toy-toggle .handle {
-	transform: translate(-10%,-50%);
-}
-input:checked + .toy-toggle .handle-off {
-	transform: scaleX(0);
-	transition-delay: 0s;
-	transition-timing-function: ease-in;
-}
-input:checked + .toy-toggle .handle-on {
-	transform: scaleX(1);
-	transition-delay: calc(var(--transDur)/2);
-	transition-timing-function: ease-out;
-}
-    </style>
 
-    <div class="row mt-3 bg-light border mb-3 " style="height: 10em;">
-        <div class="col-4 d-flex align-items-center">
-            <h3>Toggle Set Availability</h3>
-        </div>
-        <div class="col-8">
-            <div class="row" style="position: relative;">
+/* Switch starts here */
+.rocker {
+  display: inline-block;
+  position: relative;
+  /*
+  SIZE OF SWITCH
+  ==============
+  All sizes are in em - therefore
+  changing the font-size here
+  will change the size of the switch.
+  See .rocker-small below as example.
+  */
+  font-size: 2em;
+  font-weight: bold;
+  text-align: center;
+  text-transform: uppercase;
+  color: #888;
+  width: 7em;
+  height: 4em;
+  overflow: hidden;
+  border-bottom: 0.5em solid #eee;
+}
+
+.rocker-small {
+  font-size: 0.75em; /* Sizes the switch */
+  margin: 1em;
+}
+
+.rocker::before {
+  content: "";
+  position: absolute;
+  top: 0.5em;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #999;
+  border: 0.5em solid #eee;
+  border-bottom: 0;
+}
+
+.rocker input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-left,
+.switch-right {
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 2.5em;
+  width: 3em;
+  transition: 0.2s;
+}
+
+.switch-left {
+  height: 2.4em;
+  width: 2.75em;
+  left: 0.85em;
+  bottom: 0.4em;
+  background-color: #ddd;
+  transform: rotate(15deg) skewX(15deg);
+}
+
+.switch-right {
+  right: 0.5em;
+  bottom: 0;
+  background-color: #bd5757;
+  color: #fff;
+}
+
+.switch-left::before,
+.switch-right::before {
+  content: "";
+  position: absolute;
+  width: 0.4em;
+  height: 2.45em;
+  bottom: -0.45em;
+  background-color: #ccc;
+  transform: skewY(-65deg);
+}
+
+.switch-left::before {
+  left: -0.4em;
+}
+
+.switch-right::before {
+  right: -0.375em;
+  background-color: transparent;
+  transform: skewY(65deg);
+}
+
+input:checked + .switch-left {
+  background-color: #0084d0;
+  color: #fff;
+  bottom: 0px;
+  left: 0.5em;
+  height: 2.5em;
+  width: 3em;
+  transform: rotate(0deg) skewX(0deg);
+}
+
+input:checked + .switch-left::before {
+  background-color: transparent;
+  width: 3.0833em;
+}
+
+input:checked + .switch-left + .switch-right {
+  background-color: #ddd;
+  color: #888;
+  bottom: 0.4em;
+  right: 0.8em;
+  height: 2.4em;
+  width: 2.75em;
+  transform: rotate(-15deg) skewX(-15deg);
+}
+
+input:checked + .switch-left + .switch-right::before {
+  background-color: #ccc;
+}
+
+/* Keyboard Users */
+input:focus + .switch-left {
+  color: #333;
+}
+
+input:checked:focus + .switch-left {
+  color: #fff;
+}
+
+input:focus + .switch-left + .switch-right {
+  color: #fff;
+}
+
+input:checked:focus + .switch-left + .switch-right {
+  color: #333;
+}
+</style>
+
+    <div class="row mt-3 border mb-3 alert alert-success " style="height: 10em; width: 40%;">
+        <div class="col-12">
+            <h3>Toggle Set Availability</h3> <hr>
+            <div class="rowalign-items-center" style="position: relative;">
                 <div class='col-4 ' style="position:absolute; top: 0; left: 0; z-index: 10; opacity: 0; ">
                     <div class="card alert alert-info ">
-                        <a href="{% url 'doctor:dashboard' %}?action=set_availability" class="btn btn-primary" style="height: 15em;" > Set Availability</a>
+                        <a href="{% url 'doctor:dashboard' %}?action=set_availability" class="btn btn-primary"  style="height: 15em;" > Set Availability</a>
                     </div>
                 </div>
 
-				<div class="mid">
+                <div class="mid">
 
-					<label class="rocker rocker-small">
-						{% if av_ap.availability == True %}
-						<input type="checkbox"  id="toggle" name="toggle" value="is_on" checked style="opacity: 0;">
-						{% else %}
-						<input type="checkbox"  id="toggle" name="toggle" value="is_on" style="opacity: 0;">
-						{% endif %}
-					  <span class="switch-left">Yes</span>
-					  <span class="switch-right">No</span>
-					</label>
-				  
-				  </div>
-
-                <div class="col-4 d-flex align-items-center" style="position:absolute; top: 0; left: 0;">
+                  <label class="rocker rocker-small col-3 d-flex align-items-center " style="position:absolute; top: 0; left: 0;">
                     {% if av_ap.availability == True %}
                     <input type="checkbox"  id="toggle" name="toggle" value="is_on" checked style="opacity: 0;">
                     {% else %}
                     <input type="checkbox"  id="toggle" name="toggle" value="is_on" style="opacity: 0;">
                     {% endif %}
-                    <label for="toggle" class="toy-toggle">
-                        <span class="border1"></span>
-                        <span class="border2"></span>
-                        <span class="border3"></span>
-                        <span class="handle">
-                            <span class="handle-off"></span>
-                            <span class="handle-on"></span>
-                        </span>
-                    </label>
+                    <span class="switch-left">On</span>
+                    <span class="switch-right">Off</span>
+                  </label>
+
+                  <span class='pl-5'>
+                    {% if av_ap.availability == True %}
+                    "Your availability status is On"
+                    {% else %}
+                    "Your availability status is Off"
+                    {% endif %}
+                  </span>
+                  
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row mt-4">
-        <div class="col-6 ">
+        <div class="col-4 ">
             <div class="card bg-primary text-light">
                 <div class="card-header ">
-                    <h5>Appointments</h5>
+                    <h5>Inpatient Appointments</h5>
                 </div>
                 <div class="card-body">
                     <h1>
-                        {{app}}
+                        {{inapp}} Pending 
                     </h1>
-                    <h6>Active Approved Appointments</h6>
+                    <h6>Inpatient Appointments awaiting your approval</h6>
                 </div>
             </div>
         </div>
-        <div class="col-6">
-            <div class="card bg-success text-light">
+        <div class="col-4 ">
+            <div class="card bg-info text-light">
+                <div class="card-header ">
+                    <h5>Outpatient Appointments</h5>
+                </div>
+                <div class="card-body">
+                    <h1>
+                        {{app}} Pending  
+                    </h1>
+                    <h6> Outpatient Appointments awaiting your approval</h6>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <a href="{% url 'doctor:docChat' %}" class="card bg-success text-light text-decoration-none">
                 <div class="card-header">
                     <h5>Chatroom</h5>
                 </div>
                 <div class="card-body">
-                    <h1>3</h1>
-                    <h6>Chatroom</h6>
+                    <h1>View ChatRoom</h1>
+                    <h6>Visit latest questions and chats on matters addiction Recovery</h6>
                 </div>
-            </div>
+            </a>
         </div>
     </div>    
     

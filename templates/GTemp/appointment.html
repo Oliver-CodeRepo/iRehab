@@ -12,6 +12,10 @@
 <div style='background-color:white; width: 100%;'>
     <div class="row justify-content-center mb-5">
 
+        {% for msg in messages %}
+            <span class='alert alert-success'>{{msg}}</span>
+        {% endfor %}
+
         <div class="col-4 border mt-4 p-4">
             <form action="" method="post">
                 <h3> Book Session Form</h3>
@@ -159,7 +163,7 @@
                         <label class="form-control-placeholder" for="product">Problem</label>                                         
                         <textarea name="problem" id="id_problem" cols="30" rows="4" class="form-control"></textarea>
                     </div>  
-                    {{ formProduct.station}}
+                    <input type="hidden" name='user' id='user_id' >
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary btn-block">Book</button>
                     </div>
@@ -174,6 +178,8 @@
 <script>
     var user = '{{user.id}}';
     document.getElementById('id_user').value = user;
+    var u = '{{user.id}}';
+    document.getElementById('user_id').value = u;
 </script>
 
 {% endblock %}

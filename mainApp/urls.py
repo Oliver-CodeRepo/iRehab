@@ -11,8 +11,8 @@ urlpatterns = [
     path('auth/login/', views.loginPage, name='login'),
     path('auth/logout/', views.logoutPage, name='logout'),
 
-    path('profile/', views.profilePage, name='profile'),
-    path('profile/<int:user_id>/', views.view_profile, name='viewProfile'),
+    path('profile/<int:uid>/', views.profilePage, name='profile'),
+    # path('profile/', views.view_profile, name='viewProfile'),
 
     path('chatroom/', views.all_questions, name='chatroom'),
     path('chartroom/<int:question_id>/question', views.single_questions, name='question'),

@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.views.generic import View
-# from africasTalking.AfricasTalkingGateway import AfricasTalkingGateway, AfricasTalkingGatewayException
 
 from .forms import *
 from .models import *
+from django.contrib.auth.models import User
 from doctor.models import Doctor
 
 # Create your views here.
@@ -62,26 +62,18 @@ def logoutPage(request):
 
 
 @login_required(login_url='mainApp:login')
-def profilePage(request):
-    form = ProfileForm()
-    if request.method == 'POST':
-        form = ProfileForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile creation was successful.')
-            return redirect('mainApp:index')
-    else:
-        form=ProfileForm()
+def profilePage(request, uid):
+    context = {}
+    userModel = get_object_or_404(User, id=uid)
+    form = RegForm(request.POST or None, instance=userModel)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Profile Updated was successfully.')
+        return redirect('mainApp:index')
 
-    context = {'form': form}
+    context['form'] = form
     return render(request, 'User/profile.html', context)
 
-
-@login_required(login_url='mainApp:login')
-def view_profile(request, user_id):
-    profile = Profile.get_profile(user_id)
-    context = {'profile': profile}
-    return render(request, 'User/profileView.html', context)
 
 
 @login_required(login_url='mainApp:login')
@@ -94,7 +86,7 @@ def all_questions(request):
 @login_required(login_url='mainApp:login')
 def single_questions(request, question_id):
     questions = Question.objects.filter(id=question_id)
-    comments = Comment.objects.filter(question=question_id)
+    comments = Comment.objects.filter(question=question_id).order_by('-id')
     context = {'questions': questions, 'comments': comments}
     return render(request, 'GTemp/chatroom-q.html', context)
 
@@ -105,9 +97,7 @@ def post_question(request):
     if request.method == 'POST':
         form = QuestionForm(request.POST)
         if form.is_valid():
-            opinion = form.save(commit=False)
-            opinion.user = request.user
-            opinion.save()
+            form.save()
             return redirect('mainApp:chatroom')
     else:
         form = QuestionForm()
@@ -119,7 +109,6 @@ def post_question(request):
 @login_required(login_url='mainApp:login')
 def post_comments(request, question_id):
     current_question = Question.objects.get(id=question_id)
-    print(current_question)
     form = CommentForm()
     if request.method == 'POST':
         form = CommentForm(request.POST)
@@ -128,8 +117,7 @@ def post_comments(request, question_id):
             comment.user = request.user
             comment.question = current_question
             comment.save()
-            # return redirect('chatroom', id=current_question.id)
-            return HttpResponseRedirect(reverse('mainApp:chatroom')) 
+            return redirect('mainApp:question', question_id) 
     else:
         form = CommentForm()
 
@@ -227,8 +215,8 @@ def aboutPage(request):
 #     when = session.session.slotted_date
 
 #     # send confirmation massage to user
-#     username = 'rehab'
-#     apikey = '28394eac60fafaa60feb35012a8ddce5c5a5c164ba51a6f54d13c8f807daea543o'
+#     username = 'sandbox'
+#     apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
 #     to = user_contact
 #     message = 'Hello' + request.user.username.upper() + \
 #         '\nYou have successifully reserved a session with us'
@@ -259,8 +247,8 @@ def aboutPage(request):
 #     starting = vacancy.starting_date
 #     ending = vacancy.finish_date
 
-#     username = 'rehab'
-#     apikey = '28394eac60fafaa60feb35012a8ddce5c5a5c164ba51a6f54d13c8f807daea543o'
+#     username = 'sandbox'
+#     apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
 #     to = user_contact
 #     message = 'Congratulations' + request.user.username.upper() + '.\n' 'You have reserved a slot a iRehab from ' + \
 #         str(starting)[:10] + 'to' + str(ending)[:10]

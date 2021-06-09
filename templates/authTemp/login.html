@@ -14,11 +14,11 @@
             <div class="signin-image">
                 <figure><img src="{% static 'images/signin-image.jpg' %}" alt="sing up image"></figure>
                 <a href="{% url 'mainApp:register' %}" class="signup-image-link">Create an account</a>
-                <a class="signup-image-link badge badge-primary" href="{% url 'doctor:doctorLogin' %}">Admin</a>
+                <a class="signup-image-link badge badge-primary" href="{% url 'doctor:doctorLogin' %}">Login as doctor</a>
             </div>
 
             <div class="signin-form">
-                <h2 class="form-title">Sign up AS User</h2>
+                <h2 class="form-title">Sign up as User</h2>
                 <form method="POST" class="register-form" id="login-form">
                     {% for msg in messages %}
                         <span style="color: ghostwhite; background-color:lightseagreen">{{ msg }}</span>

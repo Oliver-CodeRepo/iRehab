@@ -140,35 +140,7 @@ header {
   width: 90%;
   transition: all 3s ease;
 }
-.title {
-  padding: 20px;
-  font-size: 30px;
-  text-align: center;
-  color: #999;
-  position: relative;
-  z-index: 10;
-  /* background: white; */
-  font-weight: 600;
-}
-.title::after,
-.title::before {
-  content: "";
-  background: linear-gradient(
-    -30deg,
-    rgb(7, 85, 145) 45%,
-    rgb(39, 193, 240) 45%
-  );
-  width: 150px;
-  height: 4px;
-  position: absolute;
-  bottom: 20%;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 1;
-}
-.title::before {
-  top: 20%;
-}
+
 .services .service-contents {
   display: flex;
   justify-content: space-between;
@@ -234,6 +206,18 @@ header {
   background-color: rgb(255, 255, 255) !important;
 }
 .about-content .right {
+  width: 40%;
+  height: 60vh;
+  background: url("../images/chatRoom.png") no-repeat;
+  background-size: cover;
+}
+.about-content .chatRoom {
+  width: 40%;
+  height: 60vh;
+  background: url("../images/4.jpeg") no-repeat;
+  background-size: cover;
+}
+.about-content .appoint {
   width: 40%;
   height: 60vh;
   background: url("../images/4.jpeg") no-repeat;

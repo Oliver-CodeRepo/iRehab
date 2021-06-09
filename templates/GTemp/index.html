@@ -16,7 +16,7 @@
                 <p class="buttons">
                 {%if user.is_authenticated %}
                     <a class="button" href="{% url 'mainApp:aboutPage'%}">About Us</a>
-                    <a class="button" href="{% url 'mainApp:profile'%}">Profile</a>
+                    <a class="button" href="{% url 'mainApp:profile' user.id %}">Profile</a>
                 {% else %}
                     <a class="button" href="{% url 'mainApp:register'%}">Register</a>
                     <a class="button" href="{% url 'mainApp:login'%}">Log in</a>
@@ -29,56 +29,77 @@
     </div>
 </div>
 
-<section class="services">
+<!-- <section class="services">
     <div class="main-container">
-        <div class="title">
-            <p>Services Panes</p>
+        <div class="">
+            <h2>Services Panes</h2>
         </div>
         <div class="row">
-            <div class=" col-lg-3 col-md-6 col-sm-12">
+            <div class=" col-lg-6 col-md-6 col-sm-12">
                 <img src="{% static 'images/chatRoom.png' %}" alt="" height="100" width="100">
-                <h3>ChatRoom</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+            </div>
+            <div class=" col-lg-6 col-md-6 col-sm-12">
+                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
+            </div>
+        </div>
+    </div>
+</section>  -->
+
+<section class="about">
+    <div class="main-container">
+        <div class="row" style="width: 80%; margin: 40px auto;">
+            <div class="col-6">
+                <h2>ChatRoom</h2>
+                <p>Successful treatment starts with an accurate diagnosis, and our experts take the time to get it right. A team of specialists will listen to your needs and evaluate your condition from every angle to make the very best plan for you.</p>
                 <a class="pane-btn btn btn-primary" href="{% url 'mainApp:chatroom' %}">Navigate to Chatroom</a>
             </div>
-            <div class=" col-lg-3 col-md-6 col-sm-12">
-                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
-                <h3>Appointment</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
+            <div class=" col-lg-6 col-md-6 col-sm-12">
+                <img src="{% static 'images/chatRoom.png' %}" alt="" style="max-width: 100%; max-height:100%; object-fit: contain;">
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="about">
+    <div class="main-container">
+        <div class="row" style="width: 80%; margin: 40px auto;">
+            <div class=" col-lg-6 col-md-6 col-sm-12">
+                <img src="{% static 'images/appoint.png' %}" alt="" style="max-width: 100%; max-height:100%; object-fit: contain;">
+            </div>
+            <div class="col-6">
+                <h2>Appointment</h2>
+                <p>
+                    <ul>
+                        <li>Create Appointment with available doctors.</li>
+                        <li>Then await for doctors confirmation.</li>
+                        <li>Receive appointment text confirmation on approval</li>
+                    </ul>   
+                </p>
                 {%if user.is_authenticated %}
                 <a class="pane-btn btn btn-primary" href="{% url 'mainApp:appointment'%}">Book Appointment</a>
                 {% else%}
                 <a class="pane-btn btn btn-secondary" href="">Login to Book Appointment</a>
                 {% endif%}
             </div>
-            <div class=" col-lg-3 col-md-6 col-sm-12">
-                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
-                <h3>Appointment</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
-                <a class="pane-btn btn btn-primary"" href="">Navigate</a>
-            </div>
-            <div class=" col-lg-3 col-md-6 col-sm-12">
-                <img src="{% static 'images/4.jpeg' %}" alt="" height="100" width="100">
-                <h3>Appointment</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Provident nobis pariatur deserunt ex vero nam cupiditate.</p>
-                <a class="pane-btn btn btn-primary"" href="">Navigate</a>
-            </div>
         </div>
     </div>
-</section> 
+</section>
 
 <section class="about">
     <div class="main-container">
-        <div class="about-content">
-            <div class="left">
+        <div class="row" style="width: 80%; margin: 40px auto;">
+            <div class="col-lg-6 col-md-6 col-sm-12">
                 <h1>About</h1>
-                <p class="">Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa optio reiciendis ducimus laborum vero magni laudantium similique possimus, unde libero itaque dolores temporibus excepturi aliquid, nulla, asperiores minus eaque fuga?</p><br><br>
+                <p class="">
+                    iRehab mission is to inspire hope and contribute to health and well-being by providing the best care and recovery from drug addiction to every patient through integrated clinical practice, education and research. Our primary value is "The needs of the patient come first."
+                </p><br><br>
                 <span class="buttons">
                     <a class="button abt-btn" href="">About Us</a>
                 </span>
             </div>
-            <div class="right">
-
+            
+            <div class=" right col-lg-6 col-md-6 col-sm-12">
+                <img src="{% static 'images/about.png' %}" alt="" style="max-width: 100%; max-height:100%; object-fit: contain;">
             </div>
         </div>
     </div>

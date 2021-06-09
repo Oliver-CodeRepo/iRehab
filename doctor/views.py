@@ -1,7 +1,10 @@
+from mainApp.forms import CommentForm, QuestionForm
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import  login_required
 from django.contrib import  messages
+import africastalking
+from django.views.generic import UpdateView
 
 from doctor.forms import DoctorRegForm, ApproveForm, AvailabilityForm, RescheduleForm
 from mainApp.models import *
@@ -59,8 +62,9 @@ def doctorlogoutPage(request):
 
 @login_required(login_url='doctor:doctorLogin')
 def dashboard(request):
-    app = UserAppointment.objects.filter(doctor__id=request.user.id, status=True).all().count()
     av_ap = Doctor.objects.filter(name=request.user.id).first()
+    app = UserAppointment.objects.filter(doctor__id=av_ap.id, status=False).all().count()
+    inapp = Inpatient.objects.filter(doctor__id=av_ap.id, availability=True).all().count()
 
     if 'action' in request.GET.keys():
         action = request.GET['action']
@@ -80,24 +84,72 @@ def dashboard(request):
                 messages.info(request, 'Availability is set Off')
                 return redirect('doctor:dashboard')
 
-    context = {'app':app, 'av_ap':av_ap}
+    context = {'app':app, 'av_ap':av_ap, 'inapp':inapp}
     return render(request, 'doctor/dashboard.html', context)
+
 
 
 @login_required(login_url='doctor:doctorLogin')
 def docApp(request):
-    app = UserAppointment.objects.filter(doctor__id=request.user.id)
-    print(app)
+    user = Doctor.objects.filter(name=request.user.id).first()
+    app = UserAppointment.objects.filter(doctor__id=user.id).order_by('-id')[:5]
+    Inapp = Inpatient.objects.filter(doctor__id=user.id).order_by('-id')[:5]
 
-    context = {'app':app}
+    context = {'app':app, 'Inapp':Inapp}
     return render(request, 'doctor/docAppoint.html', context)
 
 
 @login_required(login_url='doctor:doctorLogin')
 def docChat(request):
     chats = Question.objects.all()
+    
+
     context = {"chats":chats}
     return render(request, 'doctor/docChat.html', context)
+
+
+@login_required(login_url='doctor:doctorLogin')
+def addPost(request):
+    
+    form = QuestionForm()
+    if request.method == 'POST':
+        form = QuestionForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('doctor:docChat')
+    else:
+        form = QuestionForm()
+    context = { 'form': form}
+    return render(request, 'doctor/addDocPost.html', context)
+
+
+@login_required(login_url='doctor:doctorLogin')
+def qDetails(request, q_id):
+    questions = Question.objects.filter(id=q_id)
+    comments = Comment.objects.filter(question=q_id).order_by('-id')
+    context = {'questions': questions, 'comments': comments}
+    return render(request, 'doctor/postDetails.html', context)
+
+
+
+
+@login_required(login_url='doctor:doctorLogin')
+def comments(request, qd_id):
+    current_question = Question.objects.get(id=qd_id)
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.question = current_question
+            comment.save()
+            return redirect('doctor:qDeatils', qd_id) 
+    else:
+        form = CommentForm()
+
+    context = {'form': form, 'current_question': current_question}
+    return render(request, 'doctor/comment.html', context)
 
 
 @login_required(login_url='doctor:doctorLogin')
@@ -107,9 +159,23 @@ def approveApp(request, app_id):
     approve = ApproveForm(request.POST or None, instance=appToApprove)
 
     if approve.is_valid():
-        approve.save()
-        messages.info(request, 'Approval was a success.')
-        return redirect("doctor:docApp")
+        app = approve.save(commit=False)
+        sc = appToApprove.scheduled
+        u = appToApprove.user
+
+        username = 'sandbox'
+        apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
+        message = 'Hello ' + str(u) + ' \n Your Appointment was Approved for date '  + str(sc) +  ' by doctor ' + request.user.username + '.'
+        sender = '5196'
+
+        africastalking.initialize(username, apikey)
+        sms = africastalking.SMS
+        response = sms.send(message, ["+254799773244"], sender)
+        print(response)
+
+        app.save()
+        messages.info(request, 'Appointment Approval was a success.')
+        return redirect('doctor:docApp')
 
     context['approve'] = approve
     return render(request, 'doctor/approveApp.html', context)  
@@ -122,8 +188,22 @@ def reschedule(request, rs_id):
     rescheduleForm = RescheduleForm(request.POST or None, instance=appToReschedule)
 
     if rescheduleForm.is_valid():
-        rescheduleForm.save()
-        messages.info(request, 'Approval was a success.')
+        r = rescheduleForm.save(commit=False)
+        sc = appToReschedule.scheduled
+        u = appToReschedule.user
+
+        username = 'sandbox'
+        apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
+        message = 'Hello ' + str(u) + ' \n Your Appointment was Rescheduled to '  + str(sc) +  ' by doctor ' + request.user.username + '.'
+        sender = '5196'
+
+        africastalking.initialize(username, apikey)
+        sms = africastalking.SMS
+        response = sms.send(message, ["+254799773244"], sender)
+        print(response)
+
+        r.save()
+        messages.info(request, 'Rescheduling was a success.')
         return redirect("doctor:docApp")
 
     context['rescheduleForm'] = rescheduleForm
@@ -134,3 +214,27 @@ def reschedule(request, rs_id):
 def aboutUsPage(request):
     context = {}
     return render(request, 'doctor/aboutUs.html', context)
+
+
+def docProfile(request, user_id):
+    context = {}
+    userModel = get_object_or_404(User, id=user_id)
+    form = DoctorRegForm(request.POST or None, instance=userModel)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Profile Updated was successfully.')
+        return redirect('doctor:docProfile')
+
+    context = {'form': form}
+    return render(request, 'doctor/docProfile.html', context)
+
+# class docProfile(UpdateView):
+#     model = User
+#     form_class = DoctorRegForm
+#     template_name = "doctor/docProfile.html"
+
+#     def get_context_data(self, *args, **kwargs):
+#         context = super(docProfile, self).get_context_data()
+#         selecteduser = get_object_or_404(User, id=self.kwargs['id'])
+#         context['selecteduser'] = selecteduser
+#         return context

@@ -10,11 +10,12 @@
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
 
-    <!-- <script>
-        var name = "{{ user.id }}";
-        document.getElementById('id_name').value = name;
-    </script> -->
+    
 
+    {% for msg in messages %}
+        {{msg}}
+    {% endfor %}
+    {{form.errors}}
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-6 card p-3 m-4">
@@ -30,6 +31,11 @@
             </div>
         </div>
     </div>
+
+    <script>
+        var name = "{{ user.id }}";
+        document.getElementById('id_user').value = name;
+    </script>
 
 <!-- <div style='background-color:white; width: 100%;'>
     <div class="main-container">

@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
+{% extends 'admin-base.html' %}
 {% load crispy_forms_tags %}
 
 {% load static %}
 
 {% block title %}Add Comment | iRehab{% endblock %}
 
-{% block main %}
+{% block content %}
 
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 <link rel="stylesheet" href="{% static 'css/base.css' %}">
@@ -31,7 +31,7 @@
                         {{ form | crispy }} 
                         <br>
                         <button class="btn btn-primary rounded">Post</button>
-                        <a class="btn btn-danger rounded" href="{% url 'mainApp:question' current_question.id %}">Cancel</a>
+                        <a class="btn btn-danger rounded" href="{% url 'doctor:qDetails' current_question.id %}">Cancel</a>
                     </form>
                 </div>
             </div>

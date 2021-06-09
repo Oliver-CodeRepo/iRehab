@@ -74,7 +74,7 @@ class Question(models.Model):
 class Comment(models.Model):
     opinion = models.CharField(max_length=200, null=True, blank=True)
     date_posted = models.DateTimeField(default=timezone.now)
-    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True)
+    question = models.ForeignKey(Question, on_delete=models.CASCADE, null=True, related_name='quiz')
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

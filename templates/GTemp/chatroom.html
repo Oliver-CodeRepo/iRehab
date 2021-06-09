@@ -8,22 +8,21 @@
 
 <link rel="stylesheet" href="{% static 'css/chat.css' %}">
 
-<div style='background-color:white; width: 100%;'>
-    <div class="chatCanvas">
-        <div class="left">
+<div class='row' style='background-color:white; width: 100%;'>
+    <div class="col-4 mt-2 pl-4 border-right">
+        <div class="w-100 border-bottom" >
+            <img src="{% static 'images/chatRoom.png' %}" alt="" style='object-fit: contain; max-width: 100%;max-height: 100%;'>
+        </div>
+        <div class="border-bottom">
             <p class="text-m">We are here to listen to you</p>
             <p class="text-b">Let's talk, Let's chat</p>
             <p class="text-s">Post your concern, we listen and let us recover together</p>
         </div>
-        <div class="right">
-            <img src="{% static 'images/chatRoom.png' %}" alt="">
-        </div>
     </div>
-    <hr>
     
-    <div class="container m-auto">
+    <div class="container mt-3 col-8">
         <div class="row justify-content-center">
-            <div class="col-9">
+            <div class="col-12">
                 <div class="jumbotron jumbotron-default alert alert-info">
                     <div class="container d-flex justify-content-between">
                         <span>
@@ -46,7 +45,10 @@
                             <span class='alert alert-info p-1 mb-2'>post on: {{ post.topic }}</span><br>
                             <div class='chatNarrative d-flex justify-content-between mt-2'>
                                 <span>{{ post.narrative | slice:":40" }}... &nbsp; </span>
-                                <a href="{% url 'mainApp:question' post.pk %}">Read more</a>
+                                <p>
+                                    <span class="text-primary">{{post.quiz.all|length}} comments</span> | 
+                                    <a href="{% url 'mainApp:question' post.pk %}">View</a>
+                                </p>
                             </div>
                         </div>
                     </div>

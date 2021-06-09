@@ -1,20 +1,21 @@
-{% extends 'base.html' %}
+{% extends 'admin-base.html' %}
 {% load crispy_forms_tags %}
 
 {% load static %}
 
 {% block title %}{{request.user.username}}'s Profile | iRehab site{% endblock %}
 
-{% block main %}
+{% block content %}
 
-<div class="justify-content-center">
+
+<div class="justify-content-center mt-4">
     <div class="container p-4" style='width:60%'>
         <div class="card">
             <div class="card-header">
                 <h1>Your Profile Pane</h1>
             </div>
             <div class="card-body">
-                <form action="" method="post" class="form form-group">
+                <form action="{% url 'mainApp:profile' user.id %}" method="post" class="form form-group">
                     {% for error in form.errors %}
                         <span class="message">{{ error }}</span>
                     {% endfor %}
@@ -26,7 +27,7 @@
                                 <table class="table">
                                     <tr>
                                         <td>
-                                            {{form.first_name.label}}</td>
+                                            Doctors Names</td>
                                             <td>{{form.first_name}} 
                                         </td>
                                     </tr>
@@ -38,7 +39,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            {{form.username.label}}</td>
+                                            Doctor Reference No.</td>
                                             <td>{{form.username}} 
                                         </td>
                                     </tr>
@@ -61,7 +62,7 @@
                     
                     <div class="card-footer">
                         <button class='btn btn-primary p-2'>Update Profile</button> 
-                        <a class='btn btn-danger p-2' href='{% url "mainApp:logout" %}'> Logout</a>
+                        <a class='btn btn-danger p-2' href='{% url "doctor:doctorLogout" %}'> Logout</a>
                     </div>
                 </form>
             </div>

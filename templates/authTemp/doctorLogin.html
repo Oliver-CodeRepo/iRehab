@@ -13,12 +13,12 @@
         <div class="signin-content">
             <div class="signin-image">
                 <figure><img src="{% static 'images/signin-image.jpg' %}" alt="sing up image"></figure>
-                <a href="{% url 'doctor:doctorRegister' %}" class="signup-image-link">Create an account as Doctors</a>
-                <a class="signup-image-link badge badge-primary" href="{% url 'mainApp:login' %}">Login As User</a>
+                <a href="{% url 'doctor:doctorRegister' %}" class="signup-image-link">Create an account as doctor</a>
+                <a class="signup-image-link badge badge-primary" href="{% url 'mainApp:login' %}">Login as User</a>
             </div>
 
             <div class="signin-form">
-                <h2 class="form-title">Sign In as Admin</h2>
+                <h2 class="form-title">Sign in as doctor</h2>
                 <form method="POST" class="register-form" id="login-form">
                     {% for msg in messages %}
                         <span style="color: ghostwhite; background-color:lightseagreen">{{ msg }}</span>
