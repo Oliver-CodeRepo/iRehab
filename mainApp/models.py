@@ -116,6 +116,7 @@ class Inpatient(models.Model):
     problem = models.TextField(default='description...')
     doctor = models.ForeignKey(Doctor, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, null=True, blank=True, on_delete=models.CASCADE)
+    # status = models.BooleanField(default=False)
 
     @classmethod
     def get_vacancies(cls):

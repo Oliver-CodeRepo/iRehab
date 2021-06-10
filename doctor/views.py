@@ -157,20 +157,25 @@ def approveApp(request, app_id):
     context = {}
     appToApprove = get_object_or_404(UserAppointment, id=app_id)
     approve = ApproveForm(request.POST or None, instance=appToApprove)
+    
 
     if approve.is_valid():
         app = approve.save(commit=False)
         sc = appToApprove.scheduled
         u = appToApprove.user
+        j = u.last_name
+        problem = appToApprove.problem
+        phone = [str(j)]
+        
 
-        username = 'sandbox'
-        apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
-        message = 'Hello ' + str(u) + ' \n Your Appointment was Approved for date '  + str(sc) +  ' by doctor ' + request.user.username + '.'
-        sender = '5196'
+        username = 'rehab'
+        apikey = 'b548d8868cd94d805e5d2437ce591bad511eb783cf8c3eb9e972449e5b14a52c'
+        message = 'Hello ' + str(u)+ '\nYour Appointment on problem tagged "'+ str(problem) +'" was Approved for date '  + str(sc) +  ' by doctor ' + request.user.username + '.'
+        # sender = '5196'
 
         africastalking.initialize(username, apikey)
         sms = africastalking.SMS
-        response = sms.send(message, ["+254799773244"], sender)
+        response = sms.send(message, phone)
         print(response)
 
         app.save()
@@ -191,15 +196,17 @@ def reschedule(request, rs_id):
         r = rescheduleForm.save(commit=False)
         sc = appToReschedule.scheduled
         u = appToReschedule.user
+        j = u.last_name
+        phone=[str(j)]
 
-        username = 'sandbox'
-        apikey = 'f81ace79249b5c467936c3abe5fda300b552cca07ec2de3cb0aa181ecbb87915'
-        message = 'Hello ' + str(u) + ' \n Your Appointment was Rescheduled to '  + str(sc) +  ' by doctor ' + request.user.username + '.'
-        sender = '5196'
+        username = 'rehab'
+        apikey = 'b548d8868cd94d805e5d2437ce591bad511eb783cf8c3eb9e972449e5b14a52c'
+        message = 'Hello ' + str(u) + '\nYour Appointment was Rescheduled to '  + str(sc) +  ' by doctor ' + request.user.username + '.'
+        # sender = '5196'
 
         africastalking.initialize(username, apikey)
         sms = africastalking.SMS
-        response = sms.send(message, ["+254799773244"], sender)
+        response = sms.send(message, phone)
         print(response)
 
         r.save()
@@ -227,14 +234,3 @@ def docProfile(request, user_id):
 
     context = {'form': form}
     return render(request, 'doctor/docProfile.html', context)
-
-# class docProfile(UpdateView):
-#     model = User
-#     form_class = DoctorRegForm
-#     template_name = "doctor/docProfile.html"
-
-#     def get_context_data(self, *args, **kwargs):
-#         context = super(docProfile, self).get_context_data()
-#         selecteduser = get_object_or_404(User, id=self.kwargs['id'])
-#         context['selecteduser'] = selecteduser
-#         return context

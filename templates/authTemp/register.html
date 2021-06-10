@@ -18,19 +18,27 @@
                         <span class="message">{{ error }}</span>
                     {% endfor %}
                     {% csrf_token %}
-                    <div class="form-group">
+                    <div class="form-group pl-3">
+                        <label for="email"><i class="fa fa-bookmark"></i></label>
+                        {{form.first_name}}
+                    </div>
+                    <div class="form-group pl-3">
                         <label for="name"><i class="fa fa-user"></i></label>
                         {{form.username}}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group pl-3">
                         <label for="email"><i class="fa fa-envelope"></i></label>
                         {{form.email}}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group pl-3">
+                        <label for="email"><i class="fa fa-phone"></i></label>
+                        {{form.last_name}}
+                    </div>
+                    <div class="form-group pl-3">
                         <label for="pass"><i class="fa fa-lock"></i></label>
                         {{ form.password1 }}
                     </div>
-                    <div class="form-group">
+                    <div class="form-group pl-3">
                         <label for="re-pass"><i class="fa fa-lock"></i></label>
                         {{ form.password2 }}
                     </div>

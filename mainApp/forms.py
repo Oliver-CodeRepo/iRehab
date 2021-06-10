@@ -8,11 +8,12 @@ from .models import Comment, Inpatient, Profile, Question, Record, UserAppointme
 class RegForm(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2','first_name']
+        fields = ['username', 'email', 'password1', 'password2','first_name','last_name']
 
         widgets = {
-            'username': forms.TextInput(attrs={'placeholder': 'Username', 'class':'form-control', 'autofocus':'off'}),
+            'username': forms.TextInput(attrs={'placeholder': 'Username', 'class':'form-control', 'autofocus':'false'}),
             'first_name': forms.TextInput(attrs={'placeholder': 'Names', 'class':'form-control'}),
+            'last_name':forms.TextInput(attrs={'placeholder':'+2547.....', 'class':'form-control','type':'tel'}),
             'email': forms.TextInput(attrs={'placeholder': 'E-mail', 'class':'form-control'}),
             'password1': forms.TextInput(attrs={'placeholder': 'Password', 'class':'form-control', 'type':'password'}),
             'password2': forms.TextInput(attrs={'placeholder': 'Confirm Password', 'class':'form-control', 'type':'password'}),
