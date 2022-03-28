@@ -53,6 +53,10 @@
 </body>
 
 <footer>
-    <p> All Rights Reservered iRehab Site <br> Copyright &copy 2020. </p>
+    <p> All Rights Reservered iRehab Site <br> Copyright &copy <span id='year'></span>. </p>
+    <script>
+        _year = new Date().getFullYear()
+        document.getElementById('year').innerHTML = _year;
+    </script>
  </footer>
 </html>

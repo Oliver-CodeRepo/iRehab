@@ -152,7 +152,7 @@ def comments(request, qd_id):
             comment.user = request.user
             comment.question = current_question
             comment.save()
-            return redirect('doctor:qDeatils', qd_id) 
+            return redirect('doctor:qDetails', qd_id) 
     else:
         form = CommentForm()
 
