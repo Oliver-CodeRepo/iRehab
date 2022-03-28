@@ -17,7 +17,7 @@
     <header>
         <div class="main-container m-auto" style='width:90%'>
             <div class="logo">
-                <h2>iREHAB LOGO</h2>
+                <h2>iREHAB</h2>
             </div>
             <div class="nav">
                 <ul>
@@ -28,7 +28,7 @@
                     {% endif %}
                     <li><a href="{% url 'mainApp:aboutPage'%}">About</a></li>
                     {% if user.is_authenticated %}
-                    <li><a href="{% url 'mainApp:profile' user.id%}"> {{request.user.username}} </a></li>
+                    <li><a href="{% url 'mainApp:profile' user.id%}"> Profile </a></li>
                     <li><a href="{% url 'mainApp:logout'%}">Logout</a></li>
                     {% else %}
                     <li><a href="{% url 'mainApp:register'%}">Register</a></li>

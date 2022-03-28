@@ -23,6 +23,9 @@ def doctorRegPage(request):
                 dform = form.save(commit=False)
                 dform.is_staff = True
                 dform.save()
+                doc = Doctor()
+                doc.name = dform
+                doc.save()
                 un = form.cleaned_data.get('username')
                 messages.success(request, 'Account creation as doctor '+ un +' was successful.')
                 return redirect('doctor:dashboard')
@@ -62,7 +65,9 @@ def doctorlogoutPage(request):
 
 @login_required(login_url='doctor:doctorLogin')
 def dashboard(request):
-    av_ap = Doctor.objects.filter(name=request.user.id).first()
+    user = request.user
+    av_ap = Doctor.objects.filter(name=user).first()
+    print(av_ap)
     app = UserAppointment.objects.filter(doctor__id=av_ap.id, status=False).all().count()
     inapp = Inpatient.objects.filter(doctor__id=av_ap.id, availability=True).all().count()
 
@@ -85,12 +90,15 @@ def dashboard(request):
                 return redirect('doctor:dashboard')
 
     context = {'app':app, 'av_ap':av_ap, 'inapp':inapp}
+    # context = {'av_ap':av_ap}
     return render(request, 'doctor/dashboard.html', context)
 
 
 
 @login_required(login_url='doctor:doctorLogin')
 def docApp(request):
+    user = request.user
+    print(user)
     user = Doctor.objects.filter(name=request.user.id).first()
     app = UserAppointment.objects.filter(doctor__id=user.id).order_by('-id')[:5]
     Inapp = Inpatient.objects.filter(doctor__id=user.id).order_by('-id')[:5]
@@ -165,11 +173,19 @@ def approveApp(request, app_id):
         u = appToApprove.user
         j = u.last_name
         problem = appToApprove.problem
-        phone = [str(j)]
-        
+        phone = str(j)
+        if phone.startswith('254'):
+            _phone = '{}{}'.format('+',phone)
+            phone = [_phone]
+        elif phone.startswith('0'):
+            _phone = phone.split('0',1)
+            phone = ['{}phone'.format('+254')]
+        else:
+            phone = [phone]
+            
 
         username = 'rehab'
-        apikey = 'b548d8868cd94d805e5d2437ce591bad511eb783cf8c3eb9e972449e5b14a52c'
+        apikey = '7897038f10fdc796f83babdf0b75a42e3dbe8b445bf9072137628135ec51a90d'
         message = 'Hello ' + str(u)+ '\nYour Appointment on problem tagged "'+ str(problem) +'" was Approved for date '  + str(sc) +  ' by doctor ' + request.user.username + '.'
         # sender = '5196'
 
