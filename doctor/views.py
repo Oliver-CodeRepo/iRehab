@@ -213,10 +213,19 @@ def reschedule(request, rs_id):
         sc = appToReschedule.scheduled
         u = appToReschedule.user
         j = u.last_name
-        phone=[str(j)]
+        phone = str(j)
+        if phone.startswith('254'):
+            _phone = '{}{}'.format('+',phone)
+            phone = [_phone]
+        elif phone.startswith('0'):
+            _phone = phone.split('0',1)
+            phone = ['{}phone'.format('+254')]
+        else:
+            phone = [phone]
+            
 
         username = 'rehab'
-        apikey = 'b548d8868cd94d805e5d2437ce591bad511eb783cf8c3eb9e972449e5b14a52c'
+        apikey = '7897038f10fdc796f83babdf0b75a42e3dbe8b445bf9072137628135ec51a90d'
         message = 'Hello ' + str(u) + '\nYour Appointment was Rescheduled to '  + str(sc) +  ' by doctor ' + request.user.username + '.'
         # sender = '5196'
 
