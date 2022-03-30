@@ -174,12 +174,15 @@ def approveApp(request, app_id):
         j = u.last_name
         problem = appToApprove.problem
         phone = str(j)
+        print('phone:', phone)
         if phone.startswith('254'):
             _phone = '{}{}'.format('+',phone)
             phone = [_phone]
         elif phone.startswith('0'):
             _phone = phone.split('0',1)
-            phone = ['{}phone'.format('+254')]
+            phone = ['{}{}'.format('+254',_phone[1])]
+        elif phone.startswith('7'):
+            phone = ['{}{}'.format('+254',phone)]
         else:
             phone = [phone]
             
@@ -214,12 +217,15 @@ def reschedule(request, rs_id):
         u = appToReschedule.user
         j = u.last_name
         phone = str(j)
+        print('phone:', phone)
         if phone.startswith('254'):
             _phone = '{}{}'.format('+',phone)
             phone = [_phone]
         elif phone.startswith('0'):
             _phone = phone.split('0',1)
-            phone = ['{}phone'.format('+254')]
+            phone = ['{}{}'.format('+254',_phone[1])]
+        elif phone.startswith('7'):
+            phone = ['{}{}'.format('+254',phone)]
         else:
             phone = [phone]
             
